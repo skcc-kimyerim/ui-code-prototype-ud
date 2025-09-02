@@ -30,6 +30,8 @@ import {
   Shield,
   Globe,
   Zap,
+  ChevronRight,
+  Folder,
 } from "lucide-react"
 import Editor from "@/components/editor"
 import { useState, useEffect } from "react"
@@ -68,6 +70,103 @@ export default function ResultPage() {
   const [gitStatus, setGitStatus] = useState("clean")
   const [showBranchDropdown, setShowBranchDropdown] = useState(false) // Declare the variable
   const [showInspectionModal, setShowInspectionModal] = useState(false)
+
+  const [projectFiles, setProjectFiles] = useState<{ [key: string]: string }>({
+    "src/App.tsx": generatedCode,
+    "src/components/LoginForm.tsx": "",
+    "src/components/Button.tsx": "",
+    "src/styles/globals.css": "",
+    "package.json": JSON.stringify(
+      {
+        name: projectData?.name || "ui-code-project",
+        version: "1.0.0",
+        dependencies: {
+          react: "^18.0.0",
+          "react-dom": "^18.0.0",
+        },
+      },
+      null,
+      2,
+    ),
+    "README.md": `# ${projectData?.name || "UI Code Project"}\n\n자동 생성된 React 프로젝트입니다.`,
+  })
+  const [selectedFile, setSelectedFile] = useState("src/App.tsx")
+  const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set(["src", "src/components"]))
+
+  const getFileIcon = (fileName: string) => {
+    if (fileName.endsWith(".tsx") || fileName.endsWith(".jsx")) return "⚛️"
+    if (fileName.endsWith(".ts") || fileName.endsWith(".js")) return "📄"
+    if (fileName.endsWith(".css") || fileName.endsWith(".scss")) return "🎨"
+    if (fileName.endsWith(".json")) return "⚙️"
+    if (fileName.endsWith(".md")) return "📝"
+    return "📄"
+  }
+
+  const buildFileTree = (files: { [key: string]: string }) => {
+    const tree: any = {}
+    Object.keys(files).forEach((filePath) => {
+      const parts = filePath.split("/")
+      let current = tree
+      parts.forEach((part, index) => {
+        if (index === parts.length - 1) {
+          current[part] = { type: "file", path: filePath }
+        } else {
+          if (!current[part]) current[part] = { type: "folder", children: {} }
+          current = current[part].children
+        }
+      })
+    })
+    return tree
+  }
+
+  const renderFileTree = (tree: any, path = "") => {
+    return Object.entries(tree).map(([name, node]: [string, any]) => {
+      const fullPath = path ? `${path}/${name}` : name
+
+      if (node.type === "file") {
+        return (
+          <div
+            key={node.path}
+            className={`flex items-center px-2 py-1 text-sm cursor-pointer hover:bg-accent rounded ${
+              selectedFile === node.path ? "bg-purple-100 dark:bg-purple-900" : ""
+            }`}
+            style={{ paddingLeft: `${(path.split("/").length) * 12 + 8}px` }}
+            onClick={() => {
+              setSelectedFile(node.path)
+              setGeneratedCode(projectFiles[node.path] || "")
+            }}
+          >
+            <span className="mr-2">{getFileIcon(name)}</span>
+            <span className="text-foreground">{name}</span>
+          </div>
+        )
+      } else {
+        const isExpanded = expandedFolders.has(fullPath)
+        return (
+          <div key={fullPath}>
+            <div
+              className="flex items-center px-2 py-1 text-sm cursor-pointer hover:bg-accent rounded"
+              style={{ paddingLeft: `${(path.split("/").length) * 12 + 8}px` }}
+              onClick={() => {
+                const newExpanded = new Set(expandedFolders)
+                if (isExpanded) {
+                  newExpanded.delete(fullPath)
+                } else {
+                  newExpanded.add(fullPath)
+                }
+                setExpandedFolders(newExpanded)
+              }}
+            >
+              <ChevronRight className={`h-4 w-4 mr-1 transition-transform ${isExpanded ? "rotate-90" : ""}`} />
+              <Folder className="h-4 w-4 mr-2 text-blue-500" />
+              <span className="text-foreground">{name}</span>
+            </div>
+            {isExpanded && renderFileTree(node.children, fullPath)}
+          </div>
+        )
+      }
+    })
+  }
 
   useEffect(() => {
     const storedProject = localStorage.getItem("currentProject")
@@ -313,7 +412,7 @@ export default function GeneratedComponent() {
           ...prev,
           {
             timestamp: new Date().toLocaleTimeString(),
-            level: "error",
+            level: "error" | "warning" | "info",
             message: randomError.log,
           },
         ])
@@ -517,9 +616,22 @@ export default function GeneratedComponent() {
   }
 
   const handleCodeChange = (value: string | undefined) => {
-    if (value !== undefined) {
-      setGeneratedCode(value)
+    const newCode = value || ""
+    setGeneratedCode(newCode)
+    setProjectFiles((prev) => ({
+      ...prev,
+      [selectedFile]: newCode,
+    }))
+
+    // Auto-save version
+    const newVersion = {
+      id: codeVersions.length + 1,
+      code: newCode,
+      timestamp: new Date(),
+      description: `${selectedFile} 수정됨`,
     }
+    setCodeVersions((prev) => [...prev, newVersion])
+    setSelectedVersion(newVersion)
   }
 
   const handleSave = () => {
@@ -988,64 +1100,94 @@ export default function GeneratedComponent() {
               </TabsList>
 
               <TabsContent value="code" className="mt-4">
-                <div
-                  className={`border border-border rounded-lg overflow-hidden ${
-                    isTerminalOpen ? "h-[calc(100vh-20rem)]" : "h-[calc(100vh-12rem)]"
-                  }`}
-                >
-                  <Editor
-                    height="400px"
-                    language={getEditorLanguage(projectData?.framework || "React")}
-                    value={generatedCode}
-                    onChange={handleCodeChange}
-                    theme="vs-dark"
-                    options={{
-                      minimap: { enabled: true },
-                      fontSize: 14,
-                      lineNumbers: "on",
-                      roundedSelection: false,
-                      scrollBeyondLastLine: false,
-                      automaticLayout: true,
-                      tabSize: 2,
-                      insertSpaces: true,
-                      wordWrap: "on",
-                      folding: true,
-                      foldingHighlight: true,
-                      foldingImportsByDefault: false,
-                      unfoldOnClickAfterEndOfLine: false,
-                      contextmenu: true,
-                      mouseWheelZoom: true,
-                      multiCursorModifier: "ctrlCmd",
-                      accessibilitySupport: "auto",
-                      suggest: {
-                        enabled: true,
-                        showKeywords: true,
-                        showSnippets: true,
-                        showClasses: true,
-                        showFunctions: true,
-                        showVariables: true,
-                      },
-                      quickSuggestions: {
-                        other: true,
-                        comments: true,
-                        strings: true,
-                      },
-                      parameterHints: {
-                        enabled: true,
-                      },
-                      autoIndent: "full",
-                      formatOnPaste: true,
-                      formatOnType: true,
-                    }}
-                    loading={
-                      <div className="flex items-center justify-center h-full bg-gray-900">
-                        <div className="text-center">
-                          <RefreshCw className="h-8 w-8 animate-spin mx-auto mb-2 text-purple-400" />
-                          <p className="text-gray-300">에디터 로딩 중...</p>
-                        </div>
+                <div className="flex h-[calc(100vh-12rem)]">
+                  <div className="w-64 border-r border-border bg-card/30 flex flex-col">
+                    <div className="p-3 border-b border-border">
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-sm font-medium text-foreground">파일 탐색기</h3>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            const fileName = prompt("새 파일명을 입력하세요 (예: src/components/NewComponent.tsx)")
+                            if (fileName) {
+                              setProjectFiles((prev) => ({
+                                ...prev,
+                                [fileName]: "// 새 파일\n",
+                              }))
+                            }
+                          }}
+                        >
+                          <Plus className="h-4 w-4" />
+                        </Button>
                       </div>
-                    }
-                  />
+                    </div>
+                    <ScrollArea className="flex-1 p-2">{renderFileTree(buildFileTree(projectFiles))}</ScrollArea>
+                  </div>
+
+                  <div className="flex-1 flex flex-col">
+                    <div className="p-2 border-b border-border bg-card/50">
+                      <div className="flex items-center">
+                        <span className="mr-2">{getFileIcon(selectedFile)}</span>
+                        <span className="text-sm font-medium text-foreground">{selectedFile}</span>
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <Editor
+                        height="100%"
+                        language={getEditorLanguage(projectData?.framework || "React")}
+                        value={generatedCode}
+                        onChange={handleCodeChange}
+                        theme="vs-dark"
+                        options={{
+                          minimap: { enabled: true },
+                          fontSize: 14,
+                          lineNumbers: "on",
+                          roundedSelection: false,
+                          scrollBeyondLastLine: false,
+                          automaticLayout: true,
+                          tabSize: 2,
+                          insertSpaces: true,
+                          wordWrap: "on",
+                          folding: true,
+                          foldingHighlight: true,
+                          foldingImportsByDefault: false,
+                          unfoldOnClickAfterEndOfLine: false,
+                          contextmenu: true,
+                          mouseWheelZoom: true,
+                          multiCursorModifier: "ctrlCmd",
+                          accessibilitySupport: "auto",
+                          suggest: {
+                            enabled: true,
+                            showKeywords: true,
+                            showSnippets: true,
+                            showClasses: true,
+                            showFunctions: true,
+                            showVariables: true,
+                          },
+                          quickSuggestions: {
+                            other: true,
+                            comments: true,
+                            strings: true,
+                          },
+                          parameterHints: {
+                            enabled: true,
+                          },
+                          autoIndent: "full",
+                          formatOnPaste: true,
+                          formatOnType: true,
+                        }}
+                        loading={
+                          <div className="flex items-center justify-center h-full bg-gray-900">
+                            <div className="text-center">
+                              <RefreshCw className="h-8 w-8 animate-spin mx-auto mb-2 text-purple-400" />
+                              <p className="text-gray-300">에디터 로딩 중...</p>
+                            </div>
+                          </div>
+                        }
+                      />
+                    </div>
+                  </div>
                 </div>
               </TabsContent>
 
