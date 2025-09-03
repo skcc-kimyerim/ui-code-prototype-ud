@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useState, useEffect } from "react"
+import type React from "react";
+import { useState, useEffect } from "react";
 
 interface EditorProps {
-  height?: string | number
-  language?: string
-  value?: string
-  onChange?: (value: string | undefined) => void
-  theme?: string
-  options?: any
-  loading?: React.ReactNode
+  height?: string | number;
+  language?: string;
+  value?: string;
+  onChange?: (value: string | undefined) => void;
+  theme?: string;
+  options?: any;
+  loading?: React.ReactNode;
 }
 
 export default function Editor({
@@ -22,45 +22,49 @@ export default function Editor({
   options = {},
   loading,
 }: EditorProps) {
-  const [MonacoEditor, setMonacoEditor] = useState<React.ComponentType<any> | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const [MonacoEditor, setMonacoEditor] =
+    useState<React.ComponentType<any> | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    let mounted = true
-    console.log("[v0] Starting Monaco Editor initialization")
+    let mounted = true;
+    console.log("[v0] Starting Monaco Editor initialization");
 
     const initMonaco = async () => {
       try {
-        console.log("[v0] Attempting to import @monaco-editor/react")
-        const monaco = await import("@monaco-editor/react")
-        console.log("[v0] Monaco Editor imported successfully:", monaco)
+        console.log("[v0] Attempting to import @monaco-editor/react");
+        const monaco = await import("@monaco-editor/react");
+        console.log("[v0] Monaco Editor imported successfully:", monaco);
 
         if (!mounted) {
-          console.log("[v0] Component unmounted, skipping Monaco setup")
-          return
+          console.log("[v0] Component unmounted, skipping Monaco setup");
+          return;
         }
 
-        setMonacoEditor(() => monaco.default)
-        setIsLoading(false)
-        console.log("[v0] Monaco Editor initialized successfully")
+        setMonacoEditor(() => monaco.default);
+        setIsLoading(false);
+        console.log("[v0] Monaco Editor initialized successfully");
       } catch (error) {
-        console.error("[v0] Failed to load Monaco Editor:", error)
-        setIsLoading(false)
+        console.error("[v0] Failed to load Monaco Editor:", error);
+        setIsLoading(false);
       }
-    }
+    };
 
-    initMonaco()
+    initMonaco();
 
     return () => {
-      mounted = false
-      console.log("[v0] Monaco Editor component unmounting")
-    }
-  }, [])
+      mounted = false;
+      console.log("[v0] Monaco Editor component unmounting");
+    };
+  }, []);
 
-  console.log("[v0] Editor render state:", { isLoading, hasMonacoEditor: !!MonacoEditor })
+  console.log("[v0] Editor render state:", {
+    isLoading,
+    hasMonacoEditor: !!MonacoEditor,
+  });
 
   if (isLoading) {
-    console.log("[v0] Rendering loading state")
+    console.log("[v0] Rendering loading state");
     return (
       <div
         style={{ height: typeof height === "string" ? height : `${height}px` }}
@@ -68,11 +72,13 @@ export default function Editor({
       >
         {loading || <div className="text-gray-400">Loading editor...</div>}
       </div>
-    )
+    );
   }
 
   if (!MonacoEditor) {
-    console.log("[v0] Monaco Editor failed to load, rendering fallback textarea")
+    console.log(
+      "[v0] Monaco Editor failed to load, rendering fallback textarea"
+    );
     return (
       <div
         style={{ height: typeof height === "string" ? height : `${height}px` }}
@@ -85,12 +91,16 @@ export default function Editor({
           placeholder="Enter your code here..."
         />
       </div>
-    )
+    );
   }
 
-  console.log("[v0] Rendering Monaco Editor with props:", { height, language, theme })
+  console.log("[v0] Rendering Monaco Editor with props:", {
+    height,
+    language,
+    theme,
+  });
   return (
-    <div className="border border-border rounded-lg overflow-hidden">
+    <div className="border border-border rounded-lg h-full">
       <MonacoEditor
         height={height}
         language={language}
@@ -125,5 +135,5 @@ export default function Editor({
         }}
       />
     </div>
-  )
+  );
 }
