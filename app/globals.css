@@ -127,19 +127,4 @@
   }
 }
 
-/* MDEditor 텍스트 크기 커스터마이징 */
-.w-md-editor-text-textarea,
-.w-md-editor-text {
-  font-size: 16px !important;
-  line-height: 1.6 !important;
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas,
-    "Liberation Mono", Menlo, monospace !important;
-}
-
-.w-md-editor-text-textarea {
-  padding: 16px !important;
-}
-
-.w-md-editor {
-  font-size: 16px !important;
-}
+/* Removed problematic MDEditor styles */

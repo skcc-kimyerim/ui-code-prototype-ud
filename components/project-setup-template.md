@@ -167,7 +167,7 @@
 
 선택한 설정에 따라 자동으로 생성될 폴더 구조:
 
-```
+\`\`\`
 my-project/
 ├── src/
 │   ├── components/
@@ -178,7 +178,7 @@ my-project/
 ├── public/
 ├── package.json
 └── README.md
-```
+\`\`\`
 
 ---
 

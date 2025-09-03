@@ -1,14 +1,12 @@
-"use client";
+"use client"
 
-import { useState, useRef, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Edit, Eye, Settings, Check, Copy, Download } from "lucide-react";
-import MDEditor from "@uiw/react-md-editor";
-import "@uiw/react-md-editor/markdown-editor.css";
+import { useState, useRef, useEffect } from "react"
+import { Button } from "@/components/ui/button"
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
+import { Edit, Eye, Settings, Check, Copy, Download } from "lucide-react"
 
 export default function ProjectSetup() {
-  const [activeTab, setActiveTab] = useState<"edit" | "preview">("preview");
+  const [activeTab, setActiveTab] = useState<"edit" | "preview">("preview")
   const [formData, setFormData] = useState({
     projectName: "",
     framework: "",
@@ -29,18 +27,18 @@ export default function ProjectSetup() {
       requirements: null as File | null,
       references: null as FileList | null,
     },
-  });
+  })
 
-  const [markdownContent, setMarkdownContent] = useState("");
+  const [markdownContent, setMarkdownContent] = useState("")
 
   // 마크다운 템플릿 로드
   useEffect(() => {
     const loadTemplate = async () => {
       try {
-        const response = await fetch("/project-setup-template.md");
+        const response = await fetch("/project-setup-template.md")
         if (response.ok) {
-          const template = await response.text();
-          setMarkdownContent(template);
+          const template = await response.text()
+          setMarkdownContent(template)
         } else {
           // 폴백: 기본 템플릿
           const fallbackTemplate = `## 📝 기본 정보
@@ -64,43 +62,38 @@ export default function ProjectSetup() {
 
 **프로젝트 정보:**
 - 프로젝트명: 미설정
-- 프레임워크: 미선택`;
-          setMarkdownContent(fallbackTemplate);
+- 프레임워크: 미선택`
+          setMarkdownContent(fallbackTemplate)
         }
       } catch (error) {
-        console.error("템플릿 로드 실패:", error);
+        console.error("템플릿 로드 실패:", error)
         // 에러 시 기본 템플릿 사용
-        setMarkdownContent(
-          "## 📝 프로젝트 설정\n\n설정 템플릿을 로드하는 중..."
-        );
+        setMarkdownContent("## 📝 프로젝트 설정\n\n설정 템플릿을 로드하는 중...")
       }
-    };
+    }
 
-    loadTemplate();
-  }, []);
+    loadTemplate()
+  }, [])
 
-  const previewRef = useRef<HTMLDivElement>(null);
+  const previewRef = useRef<HTMLDivElement>(null)
 
   // HTML 폼 요소들의 값 변경을 감지하는 함수
   useEffect(() => {
     if (activeTab === "preview" && previewRef.current) {
       const handleFormChange = (event: Event) => {
-        const target = event.target as HTMLInputElement | HTMLSelectElement;
-        if (
-          target &&
-          (target.tagName === "SELECT" || target.tagName === "INPUT")
-        ) {
-          const field = target.name || target.id;
-          let value: any;
+        const target = event.target as HTMLInputElement | HTMLSelectElement
+        if (target && (target.tagName === "SELECT" || target.tagName === "INPUT")) {
+          const field = target.name || target.id
+          let value: any
 
           if (target.type === "checkbox") {
-            value = (target as HTMLInputElement).checked;
+            value = (target as HTMLInputElement).checked
           } else if (target.type === "file") {
-            const fileInput = target as HTMLInputElement;
+            const fileInput = target as HTMLInputElement
             if (fileInput.multiple) {
-              value = fileInput.files;
+              value = fileInput.files
             } else {
-              value = fileInput.files?.[0] || null;
+              value = fileInput.files?.[0] || null
             }
 
             // 파일 업로드는 uploadedFiles 객체에 저장
@@ -110,39 +103,39 @@ export default function ProjectSetup() {
                 ...prev.uploadedFiles,
                 [field]: value,
               },
-            }));
-            return;
+            }))
+            return
           } else {
-            value = target.value;
+            value = target.value
           }
 
           setFormData((prev) => {
             const newData = {
               ...prev,
               [field]: value,
-            };
+            }
 
             // 마크다운 요약 섹션 업데이트
-            updateMarkdownSummary(newData);
-            return newData;
-          });
+            updateMarkdownSummary(newData)
+            return newData
+          })
         }
-      };
+      }
 
       // 모든 form 요소에 이벤트 리스너 추가
-      const formElements = previewRef.current.querySelectorAll("select, input");
+      const formElements = previewRef.current.querySelectorAll("select, input")
       formElements.forEach((element) => {
-        element.addEventListener("change", handleFormChange);
-      });
+        element.addEventListener("change", handleFormChange)
+      })
 
       // 클린업
       return () => {
         formElements.forEach((element) => {
-          element.removeEventListener("change", handleFormChange);
-        });
-      };
+          element.removeEventListener("change", handleFormChange)
+        })
+      }
     }
-  }, [activeTab, markdownContent]);
+  }, [activeTab, markdownContent])
 
   const updateMarkdownSummary = (newFormData: typeof formData) => {
     setMarkdownContent((prev) => {
@@ -151,21 +144,18 @@ export default function ProjectSetup() {
         .filter(([_, file]) => file !== null)
         .map(([key, file]) => {
           if (file instanceof FileList) {
-            return `  - **${getFileLabel(key)}:** ${file.length}개 파일`;
+            return `  - **${getFileLabel(key)}:** ${file.length}개 파일`
           } else if (file instanceof File) {
-            return `  - **${getFileLabel(key)}:** ${file.name}`;
+            return `  - **${getFileLabel(key)}:** ${file.name}`
           }
-          return null;
+          return null
         })
-        .filter(Boolean);
+        .filter(Boolean)
 
-      const filesSection =
-        uploadedFilesInfo.length > 0
-          ? `\n- **업로드된 파일:**\n${uploadedFilesInfo.join("\n")}`
-          : "";
+      const filesSection = uploadedFilesInfo.length > 0 ? `\n- **업로드된 파일:**\n${uploadedFilesInfo.join("\n")}` : ""
 
       // 요약 섹션 업데이트
-      const summarySection = /## 📊 현재 설정 요약[\s\S]*?(?=---|\n## |$)/;
+      const summarySection = /## 📊 현재 설정 요약[\s\S]*?(?=---|\n## |$)/
       const newSummary = `## 📊 현재 설정 요약
 
 > **실시간으로 업데이트됩니다!**
@@ -174,15 +164,13 @@ export default function ProjectSetup() {
 - **프레임워크:** ${newFormData.framework || "_선택해주세요_"}  
 - **스타일링:** ${newFormData.styling || "_선택해주세요_"}
 - **클라이언트 상태관리:** ${newFormData.clientState || "_선택해주세요_"}
-- **서버 상태관리:** ${
-        newFormData.serverState || "_선택해주세요_"
-      }${filesSection}
+- **서버 상태관리:** ${newFormData.serverState || "_선택해주세요_"}${filesSection}
 
-`;
+`
 
-      return prev.replace(summarySection, newSummary);
-    });
-  };
+      return prev.replace(summarySection, newSummary)
+    })
+  }
 
   const getFileLabel = (key: string) => {
     const labels: Record<string, string> = {
@@ -192,23 +180,40 @@ export default function ProjectSetup() {
       globalCSS: "Global CSS",
       requirements: "요구사항 정의서",
       references: "레퍼런스 이미지",
-    };
-    return labels[key] || key;
-  };
+    }
+    return labels[key] || key
+  }
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(markdownContent || "");
-  };
+    navigator.clipboard.writeText(markdownContent || "")
+  }
 
   const handleDownload = () => {
-    const blob = new Blob([markdownContent || ""], { type: "text/markdown" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "project-setup.md";
-    a.click();
-    URL.revokeObjectURL(url);
-  };
+    const blob = new Blob([markdownContent || ""], { type: "text/markdown" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = "project-setup.md"
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
+  const markdownToHtml = (markdown: string) => {
+    return markdown
+      .replace(/^### (.*$)/gim, '<h3 class="text-lg font-semibold mb-2 text-gray-800">$1</h3>')
+      .replace(/^## (.*$)/gim, '<h2 class="text-xl font-bold mb-3 text-gray-900">$1</h2>')
+      .replace(/^# (.*$)/gim, '<h1 class="text-2xl font-bold mb-4 text-gray-900">$1</h1>')
+      .replace(/^\*\*(.*)\*\*/gim, '<strong class="font-semibold">$1</strong>')
+      .replace(/^\*(.*)\*/gim, '<em class="italic">$1</em>')
+      .replace(/^- (.*$)/gim, '<li class="ml-4">$1</li>')
+      .replace(
+        /^> (.*$)/gim,
+        '<blockquote class="border-l-4 border-primary pl-4 italic text-gray-600 my-2">$1</blockquote>',
+      )
+      .replace(/^---$/gim, '<hr class="my-4 border-gray-300" />')
+      .replace(/\n\n/g, '</p><p class="mb-2">')
+      .replace(/\n/g, "<br />")
+  }
 
   return (
     <div className="h-full flex flex-col">
@@ -217,16 +222,14 @@ export default function ProjectSetup() {
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center space-x-2">
             <Settings className="h-5 w-5 text-primary" />
-            <h2 className="text-lg font-semibold text-gray-900">
-              프로젝트 설정 (마크다운 기반)
-            </h2>
+            <h2 className="text-lg font-semibold text-gray-900">프로젝트 설정 (마크다운 기반)</h2>
           </div>
           <div className="flex items-center space-x-2">
             <Button
               onClick={handleCopy}
               variant="outline"
               size="sm"
-              className="text-gray-600 border-gray-300 hover:bg-gray-50"
+              className="text-gray-600 border-gray-300 hover:bg-gray-50 bg-transparent"
             >
               <Copy className="h-4 w-4 mr-1" />
               복사
@@ -235,15 +238,15 @@ export default function ProjectSetup() {
               onClick={handleDownload}
               variant="outline"
               size="sm"
-              className="text-gray-600 border-gray-300 hover:bg-gray-50"
+              className="text-gray-600 border-gray-300 hover:bg-gray-50 bg-transparent"
             >
               <Download className="h-4 w-4 mr-1" />
               다운로드
             </Button>
             <Button
               onClick={() => {
-                console.log("프로젝트 설정:", formData);
-                alert("설정이 완료되었습니다!\n콘솔을 확인해보세요.");
+                console.log("프로젝트 설정:", formData)
+                alert("설정이 완료되었습니다!\n콘솔을 확인해보세요.")
               }}
               className="bg-green-600 hover:bg-green-700 text-white"
             >
@@ -254,19 +257,13 @@ export default function ProjectSetup() {
         </div>
 
         {/* Tabs */}
-        <Tabs
-          value={activeTab}
-          onValueChange={(value) => setActiveTab(value as "edit" | "preview")}
-        >
+        <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as "edit" | "preview")}>
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="edit" className="flex items-center space-x-2">
               <Edit className="h-4 w-4" />
               <span>편집</span>
             </TabsTrigger>
-            <TabsTrigger
-              value="preview"
-              className="flex items-center space-x-2"
-            >
+            <TabsTrigger value="preview" className="flex items-center space-x-2">
               <Eye className="h-4 w-4" />
               <span>미리보기 (상호작용)</span>
             </TabsTrigger>
@@ -278,25 +275,16 @@ export default function ProjectSetup() {
       <div className="flex-1 overflow-scroll">
         <Tabs value={activeTab}>
           <TabsContent value="edit" className="h-full m-0">
-            <div className="h-full overflow-auto" data-color-mode="dark">
-              <MDEditor
+            <div className="h-full p-4">
+              <textarea
                 value={markdownContent}
-                onChange={(val) => setMarkdownContent(val || "")}
-                height="100%"
-                visibleDragbar={false}
-                data-color-mode="dark"
-                preview="edit"
-                hideToolbar
+                onChange={(e) => setMarkdownContent(e.target.value)}
+                className="w-full h-full resize-none border border-gray-300 rounded-lg p-4 font-mono text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                placeholder="마크다운 내용을 입력하세요..."
                 style={{
                   fontSize: "16px",
-                }}
-                textareaProps={{
-                  style: {
-                    fontSize: "16px",
-                    lineHeight: "1.6",
-                    fontFamily:
-                      'ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace',
-                  },
+                  lineHeight: "1.6",
+                  fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace',
                 }}
               />
             </div>
@@ -304,21 +292,15 @@ export default function ProjectSetup() {
 
           <TabsContent value="preview" className="h-full m-0">
             <div
-              className="overflow-auto"
-              data-color-mode="light"
+              className="overflow-auto p-5"
               ref={previewRef}
-            >
-              <MDEditor.Markdown
-                source={markdownContent}
-                style={{
-                  whiteSpace: "pre-wrap",
-                  padding: "20px",
-                }}
-              />
-            </div>
+              dangerouslySetInnerHTML={{
+                __html: `<div class="prose max-w-none">${markdownToHtml(markdownContent)}</div>`,
+              }}
+            />
           </TabsContent>
         </Tabs>
       </div>
     </div>
-  );
+  )
 }
