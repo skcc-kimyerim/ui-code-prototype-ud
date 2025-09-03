@@ -140,7 +140,7 @@ function ToastItem({ toast, onRemove }: ToastItemProps) {
       case "warning":
         return "border-yellow-200 bg-yellow-50 text-yellow-800 dark:border-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200";
       case "info":
-        return "border-blue-200 bg-blue-50 text-blue-800 dark:border-blue-800 dark:bg-blue-900/30 dark:text-blue-200";
+        return "border-primary/20 bg-primary/10 text-primary/90 dark:border-primary/80 dark:bg-primary/30 dark:text-primary/70";
       default:
         return "border-gray-200 bg-gray-50 text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200";
     }

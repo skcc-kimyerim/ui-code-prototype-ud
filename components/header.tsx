@@ -24,75 +24,85 @@ export default function Header({
   notificationCount = 2,
 }: HeaderProps) {
   return (
-    <header className="border-b border-gray-200 bg-white shadow-sm sticky top-0 z-50">
-      <div className="flex h-16 items-center justify-between px-6">
-        <div className="flex items-center space-x-6">
-          {/* 햄버거 메뉴 */}
-          <Button variant="ghost" size="sm" className="p-2 hover:bg-gray-100">
-            <div className="w-4 h-4 flex flex-col justify-between">
-              <div className="w-full h-0.5 bg-gray-600"></div>
-              <div className="w-full h-0.5 bg-gray-600"></div>
-              <div className="w-full h-0.5 bg-gray-600"></div>
-            </div>
-          </Button>
+    <header className="border-b bg-card shadow-sm">
+      <div className="container mx-auto px-6 py-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            {/* 햄버거 메뉴 */}
+            <Button variant="ghost" size="sm">
+              <svg
+                className="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+            </Button>
 
-          {/* DAVIS 로고와 타이틀 */}
-          <div className="flex items-center space-x-3">
-            <div className="text-2xl font-bold text-blue-600">DAVIS</div>
-            <span className="text-lg text-gray-700 font-medium">UI CODE</span>
+            {/* Davis 로고 */}
+            <h1 className="text-xl font-bold text-primary">Davis</h1>
+
+            {/* 뒤로 가기 버튼 (옵션) */}
+            {showBackButton && (
+              <div className="flex items-center gap-2">
+                <div className="w-px h-6 bg-border"></div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={onBackClick}
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  {backButtonText}
+                </Button>
+              </div>
+            )}
+
+            {/* 페이지 타이틀 (옵션) */}
+            {title && (
+              <div className="flex items-center gap-2">
+                <div className="w-px h-6 bg-border"></div>
+                <h2 className="text-lg font-semibold text-foreground">
+                  {title}
+                </h2>
+              </div>
+            )}
           </div>
 
-          {/* 뒤로 가기 버튼 (옵션) */}
-          {showBackButton && (
-            <div className="pl-4 border-l border-gray-300">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={onBackClick}
-                className="text-gray-600 hover:text-gray-800 hover:bg-gray-100 px-3 py-2"
-              >
-                {backButtonText}
-              </Button>
-            </div>
-          )}
-
-          {/* 페이지 타이틀 (옵션) */}
-          {title && (
-            <div className="pl-4 border-l border-gray-300">
-              <h1 className="text-xl font-semibold text-gray-900">{title}</h1>
+          {/* 사용자 정보 */}
+          {showUserInfo && (
+            <div className="flex items-center gap-3">
+              <div className="w-px h-6 bg-border"></div>
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
+                  <span className="text-sm text-muted-foreground font-medium">
+                    {userInitial}
+                  </span>
+                </div>
+                <span className="text-sm text-foreground">{userName}</span>
+                {notificationCount > 0 && (
+                  <div className="w-6 h-6 bg-destructive rounded-full flex items-center justify-center">
+                    <span className="text-xs text-destructive-foreground font-bold">
+                      {notificationCount}
+                    </span>
+                  </div>
+                )}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="p-1 hover:bg-accent"
+                >
+                  <div className="w-5 h-5 border border-border rounded-full flex items-center justify-center">
+                    <span className="text-xs text-muted-foreground">?</span>
+                  </div>
+                </Button>
+              </div>
             </div>
           )}
         </div>
-
-        {/* 사용자 정보 */}
-        {showUserInfo && (
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-3 ml-4 pl-4 border-l border-gray-300">
-              <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
-                <span className="text-sm text-gray-600 font-medium">
-                  {userInitial}
-                </span>
-              </div>
-              <span className="text-sm text-gray-700">{userName}</span>
-              {notificationCount > 0 && (
-                <div className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center">
-                  <span className="text-xs text-white font-bold">
-                    {notificationCount}
-                  </span>
-                </div>
-              )}
-              <Button
-                variant="ghost"
-                size="sm"
-                className="p-1 hover:bg-gray-100"
-              >
-                <div className="w-5 h-5 border border-gray-400 rounded-full flex items-center justify-center">
-                  <span className="text-xs text-gray-600">?</span>
-                </div>
-              </Button>
-            </div>
-          </div>
-        )}
       </div>
     </header>
   );

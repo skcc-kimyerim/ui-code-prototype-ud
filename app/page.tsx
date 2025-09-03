@@ -2,10 +2,20 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import Header from "@/components/header";
 import { Badge } from "@/components/ui/badge";
 import { ProjectCreationPanel } from "@/components/project-creation-panel";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Input } from "@/components/ui/input";
 import { ActivityPanel } from "@/components/activity-panel";
-import Header from "@/components/header";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 import {
   Plus,
@@ -14,19 +24,32 @@ import {
   Trash2,
   GitBranch,
   Search,
+  Play,
+  FileText,
+  X,
+  Download,
+  Code,
+  Copy,
+  Users,
+  MoreHorizontal,
+  Edit,
+  RefreshCw,
+  BarChart3,
+  Clock,
+  CheckCircle,
+  XCircle,
+  Database,
 } from "lucide-react";
 
 // 각 프로젝트의 output을 어떤 단위로 생성할지
 // 하나의 페이지를 만들도록 시킬 수도 있을 것 같음,,
 // 원하는대로 개발되었는지 체크할 수 있게 끔 (기획자랑 디자이너)
 // 프론트엔드 코드에 대한 품질 검사
-//
 
 // 요구사항 매핑하는 화면(화면 배치, 사이트 이름 - menu, ,etc) -> ui-mockup 이전에
 // 위는 다대다 관계가 될 것 같음
 // 코드는 숨기고 미리보기 화면만 보여줌
 // selector로 수정할 수 있게끔 여기서 editing
-//
 
 interface Project {
   id: string;
@@ -106,8 +129,7 @@ export default function ProjectDashboard() {
   }, []);
 
   const handleCreateNewProject = () => {
-    // 이제 create 페이지는 메인 페이지로 리다이렉트하므로 별도 동작 필요 없음
-    // 왼쪽 패널에서 직접 프로젝트 생성 가능
+    router.push("/setup");
   };
 
   const handleOpenProject = (project: Project) => {
@@ -129,8 +151,8 @@ export default function ProjectDashboard() {
       <div className="flex gap-4 p-4" style={{ height: "calc(100vh - 4rem)" }}>
         {/* Left Panel - Project Creation */}
         <div className="w-80">
-          <div className="bg-white rounded-lg border border-gray-200 shadow-sm h-full overflow-hidden">
-            <ProjectCreationPanel />
+          <div className="bg-white rounded-lg border border-gray-200 shadow-sm h-full overflow-auto">
+            <ProjectCreationPanel redirectAfterCreate="/result" />
           </div>
         </div>
 
@@ -139,12 +161,23 @@ export default function ProjectDashboard() {
           <div className="bg-white rounded-lg border border-gray-200 shadow-sm h-full overflow-auto">
             <div className="p-6">
               <div className="mb-6">
-                <h1 className="text-2xl font-bold text-gray-900 mb-2">
-                  AI가 생성한 프로젝트
-                </h1>
-                <p className="text-gray-600 text-sm">
-                  AI로 생성된 프론트엔드 프로젝트들을 관리하세요
-                </p>
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                      AI로 생성된 프로젝트
+                    </h1>
+                    <p className="text-gray-600 text-sm">
+                      AI로 생성된 프론트엔드 프로젝트들을 관리하세요
+                    </p>
+                  </div>
+                  <Button
+                    onClick={handleCreateNewProject}
+                    className="bg-primary hover:bg-primary/90 text-white"
+                    size="sm"
+                  >
+                    <Plus className="h-4 w-4 mr-2" />새 프로젝트
+                  </Button>
+                </div>
               </div>
 
               {projects.length === 0 ? (
@@ -187,7 +220,7 @@ export default function ProjectDashboard() {
                             project.status === "active"
                               ? "bg-green-100 text-green-700"
                               : project.status === "completed"
-                              ? "bg-blue-100 text-blue-700"
+                              ? "bg-primary/20 text-primary"
                               : "bg-gray-100 text-gray-700"
                           }`}
                         >
@@ -234,7 +267,7 @@ export default function ProjectDashboard() {
                       <div className="flex space-x-2">
                         <Button
                           onClick={() => handleOpenProject(project)}
-                          className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+                          className="flex-1 bg-primary hover:bg-primary/90 text-white"
                           size="sm"
                         >
                           <FolderOpen className="h-4 w-4 mr-2" />
@@ -273,7 +306,7 @@ export default function ProjectDashboard() {
 
         {/* Right Panel - Activity */}
         <div className="w-80">
-          <div className="bg-white rounded-lg border border-gray-200 shadow-sm h-full overflow-hidden">
+          <div className="bg-white rounded-lg border border-gray-200 shadow-sm h-full overflow-auto">
             <ActivityPanel />
           </div>
         </div>

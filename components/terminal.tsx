@@ -109,7 +109,7 @@ export default function Terminal({
                           ? "text-red-600"
                           : log.level === "warning"
                           ? "text-orange-600"
-                          : "text-blue-600"
+                          : "text-primary"
                       }`}
                     >
                       {log.level === "error"
@@ -130,7 +130,7 @@ export default function Terminal({
                           const aiMessage = `다음 오류를 해결하는 방법을 알려주세요:\n\n${log.message}`;
                           onSendToAIChat(aiMessage);
                         }}
-                        className="shrink-0 h-6 w-6 p-0 text-gray-400 hover:text-blue-600 hover:bg-blue-50"
+                        className="shrink-0 h-6 w-6 p-0 text-gray-400 hover:text-primary hover:bg-primary/10"
                         title="AI 채팅으로 오류 해결 방법 문의"
                       >
                         <MessageSquare className="h-3 w-3" />

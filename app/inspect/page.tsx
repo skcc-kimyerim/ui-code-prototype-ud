@@ -48,7 +48,7 @@ export default function InspectPage() {
                 onClick={() => setInspectionTab("overview")}
                 className={`w-full text-left px-4 py-3 rounded-lg transition-colors flex items-center space-x-3 ${
                   inspectionTab === "overview"
-                    ? "bg-purple-50 text-purple-700 border border-purple-200"
+                    ? "bg-primary/10 text-primary border border-primary/20"
                     : "hover:bg-gray-50 text-gray-700"
                 }`}
               >
@@ -63,7 +63,7 @@ export default function InspectPage() {
                 onClick={() => setInspectionTab("accessibility")}
                 className={`w-full text-left px-4 py-3 rounded-lg transition-colors flex items-center space-x-3 ${
                   inspectionTab === "accessibility"
-                    ? "bg-purple-50 text-purple-700 border border-purple-200"
+                    ? "bg-primary/10 text-primary border border-primary/20"
                     : "hover:bg-gray-50 text-gray-700"
                 }`}
               >
@@ -78,7 +78,7 @@ export default function InspectPage() {
                 onClick={() => setInspectionTab("i18n")}
                 className={`w-full text-left px-4 py-3 rounded-lg transition-colors flex items-center space-x-3 ${
                   inspectionTab === "i18n"
-                    ? "bg-purple-50 text-purple-700 border border-purple-200"
+                    ? "bg-primary/10 text-primary border border-primary/20"
                     : "hover:bg-gray-50 text-gray-700"
                 }`}
               >
@@ -93,7 +93,7 @@ export default function InspectPage() {
                 onClick={() => setInspectionTab("performance")}
                 className={`w-full text-left px-4 py-3 rounded-lg transition-colors flex items-center space-x-3 ${
                   inspectionTab === "performance"
-                    ? "bg-purple-50 text-purple-700 border border-purple-200"
+                    ? "bg-primary/10 text-primary border border-primary/20"
                     : "hover:bg-gray-50 text-gray-700"
                 }`}
               >
@@ -108,7 +108,7 @@ export default function InspectPage() {
                 onClick={() => setInspectionTab("storybook")}
                 className={`w-full text-left px-4 py-3 rounded-lg transition-colors flex items-center space-x-3 ${
                   inspectionTab === "storybook"
-                    ? "bg-purple-50 text-purple-700 border border-purple-200"
+                    ? "bg-primary/10 text-primary border border-primary/20"
                     : "hover:bg-gray-50 text-gray-700"
                 }`}
               >
@@ -158,9 +158,9 @@ export default function InspectPage() {
                     <div className="border border-border rounded-lg p-4">
                       <div className="flex items-center justify-between mb-2">
                         <h3 className="font-medium text-foreground">국제화</h3>
-                        <Globe className="h-5 w-5 text-blue-500" />
+                        <Globe className="h-5 w-5 text-primary" />
                       </div>
-                      <div className="text-2xl font-bold text-blue-500 mb-1">
+                      <div className="text-2xl font-bold text-primary mb-1">
                         85%
                       </div>
                       <p className="text-sm text-muted-foreground">
@@ -212,7 +212,7 @@ export default function InspectPage() {
                         </div>
                       </div>
                       <div className="flex items-start space-x-3 p-3 border border-border rounded-lg">
-                        <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                        <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
                         <div>
                           <h4 className="font-medium text-foreground">
                             다국어 텍스트 추가
@@ -301,7 +301,7 @@ axe.run().then(results => {
                 <div className="space-y-6">
                   <div className="border border-border rounded-lg p-4">
                     <h3 className="font-medium text-foreground mb-3 flex items-center">
-                      <Globe className="h-4 w-4 mr-2 text-blue-500" />
+                      <Globe className="h-4 w-4 mr-2 text-primary" />
                       국제화 분석
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -546,7 +546,7 @@ getTTFB(sendToAnalytics);`}</pre>
                             <span className="text-muted-foreground">
                               문서화율:
                             </span>{" "}
-                            <span className="font-medium text-blue-500">
+                            <span className="font-medium text-primary">
                               67%
                             </span>
                           </div>
