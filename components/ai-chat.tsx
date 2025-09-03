@@ -43,7 +43,7 @@ export default function AIChat({
       {/* Header */}
       <div className="p-4 border-b border-gray-200">
         <div className="flex items-center space-x-2">
-          <MessageSquare className="h-5 w-5 text-blue-600" />
+          <MessageSquare className="h-5 w-5 text-primary" />
           <h3 className="text-sm font-semibold text-gray-900">AI 어시스턴트</h3>
         </div>
         <p className="text-xs text-gray-500 mt-1">
@@ -79,7 +79,7 @@ export default function AIChat({
               <div
                 className={`max-w-[80%] p-3 rounded-lg ${
                   message.role === "user"
-                    ? "bg-blue-600 text-white rounded-br-sm"
+                    ? "bg-primary text-white rounded-br-sm"
                     : "bg-gray-50 text-gray-900 border border-gray-200 rounded-bl-sm"
                 }`}
               >
@@ -98,7 +98,7 @@ export default function AIChat({
               <div className="bg-gray-50 text-gray-900 p-3 rounded-lg border border-gray-200 rounded-bl-sm">
                 <p className="text-xs text-gray-500 mb-1">AI</p>
                 <div className="flex items-center space-x-2">
-                  <RefreshCw className="h-4 w-4 animate-spin text-blue-600" />
+                  <RefreshCw className="h-4 w-4 animate-spin text-primary" />
                   <p className="text-sm">생각하는 중...</p>
                 </div>
               </div>
@@ -116,12 +116,12 @@ export default function AIChat({
             placeholder="메시지를 입력하세요..."
             value={input}
             onChange={(e) => onInputChange(e.target.value)}
-            className="flex-1 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
+            className="flex-1 border-gray-200 focus:border-primary focus:ring-primary"
             disabled={isLoading}
           />
           <Button
             type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-3"
+            className="bg-primary hover:bg-primary/90 text-white px-3"
             disabled={isLoading || !input.trim()}
           >
             <Send className="h-4 w-4" />

@@ -129,7 +129,7 @@ export default function CodeEditorPreview({
           <div
             key={node.path}
             className={`flex items-center px-2 py-1 text-sm cursor-pointer hover:bg-gray-100 rounded ${
-              selectedFile === node.path ? "bg-blue-100 text-blue-700" : ""
+              selectedFile === node.path ? "bg-primary/20 text-primary" : ""
             }`}
             style={{ paddingLeft: `${path.split("/").length * 12 + 8}px` }}
             onClick={() => {
@@ -154,7 +154,7 @@ export default function CodeEditorPreview({
                   isExpanded ? "rotate-90" : ""
                 }`}
               />
-              <Folder className="h-4 w-4 mr-2 text-blue-500" />
+              <Folder className="h-4 w-4 mr-2 text-primary" />
               <span className="text-gray-700">{name}</span>
             </div>
             {isExpanded && renderFileTree(node.children, fullPath)}
@@ -229,7 +229,7 @@ export default function CodeEditorPreview({
             {!hasError && isGenerating && (
               <Badge
                 variant="secondary"
-                className="text-xs bg-blue-100 text-blue-800"
+                className="text-xs bg-primary/20 text-primary/90"
               >
                 <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
                 생성 중...
@@ -313,14 +313,14 @@ export default function CodeEditorPreview({
           <TabsList className="grid w-full grid-cols-2 bg-transparent p-0 h-auto border-b border-gray-200">
             <TabsTrigger
               value="code"
-              className="flex items-center justify-center px-4 py-3 text-sm font-medium transition-colors bg-transparent border-0 rounded-none data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:shadow-none data-[state=active]:font-semibold hover:text-gray-700 hover:bg-gray-50 text-gray-500"
+              className="flex items-center justify-center px-4 py-3 text-sm font-medium transition-colors bg-transparent border-0 rounded-none data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:shadow-none data-[state=active]:font-semibold hover:text-gray-700 hover:bg-gray-50 text-gray-500"
             >
               <Terminal className="h-4 w-4 mr-2" />
               생성된 코드
             </TabsTrigger>
             <TabsTrigger
               value="preview"
-              className="flex items-center justify-center px-4 py-3 text-sm font-medium transition-colors bg-transparent border-0 rounded-none data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:shadow-none data-[state=active]:font-semibold hover:text-gray-700 hover:bg-gray-50 text-gray-500"
+              className="flex items-center justify-center px-4 py-3 text-sm font-medium transition-colors bg-transparent border-0 rounded-none data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:shadow-none data-[state=active]:font-semibold hover:text-gray-700 hover:bg-gray-50 text-gray-500"
             >
               <Monitor className="h-4 w-4 mr-2" />
               라이브 미리보기
