@@ -23,13 +23,7 @@ import {
   RefreshCw,
 } from "lucide-react";
 
-interface ProjectCreationPanelProps {
-  redirectAfterCreate?: string;
-}
-
-export function ProjectCreationPanel({
-  redirectAfterCreate = "/result",
-}: ProjectCreationPanelProps = {}) {
+export function ProjectCreationPanel() {
   const router = useRouter();
   const [projectName, setProjectName] = useState("My UI Project");
   const [framework, setFramework] = useState("React");
@@ -282,9 +276,9 @@ export function ProjectCreationPanel({
 
       localStorage.setItem("currentProject", JSON.stringify(projectData));
 
-      console.log(`[v0] Project saved, navigating to ${redirectAfterCreate}`);
+      console.log("[v0] Project saved, navigating to /result");
       try {
-        router.push(redirectAfterCreate);
+        router.push("/result");
         console.log("[v0] router.push('/result') called successfully");
 
         setTimeout(() => {
@@ -315,7 +309,7 @@ export function ProjectCreationPanel({
       {/* Header */}
       <div className="p-4 border-b border-gray-200">
         <div className="flex items-center space-x-3 mb-2">
-          <Settings className="h-5 w-5 text-primary" />
+          <Settings className="h-5 w-5 text-blue-600" />
           <h2 className="text-lg font-semibold text-gray-900">프로젝트 설정</h2>
         </div>
         <p className="text-sm text-gray-600">
@@ -445,7 +439,7 @@ export function ProjectCreationPanel({
             <Button
               onClick={() => fileInputRef.current?.click()}
               variant="outline"
-              className="w-full h-20 border-dashed border-2 border-gray-300 hover:border-primary/60"
+              className="w-full h-20 border-dashed border-2 border-gray-300 hover:border-blue-400"
             >
               <div className="text-center">
                 <Upload className="h-6 w-6 mx-auto mb-2 text-gray-400" />
@@ -496,8 +490,8 @@ export function ProjectCreationPanel({
                   </span>
                   {isDownloadingRequirements && (
                     <div className="flex items-center space-x-1">
-                      <div className="w-3 h-3 border border-primary border-t-transparent rounded-full animate-spin" />
-                      <span className="text-xs text-primary">
+                      <div className="w-3 h-3 border border-blue-500 border-t-transparent rounded-full animate-spin" />
+                      <span className="text-xs text-blue-600">
                         다운로드 중...
                       </span>
                     </div>
@@ -511,9 +505,9 @@ export function ProjectCreationPanel({
 
             {/* 다운로드된 요구사항 표시 */}
             {useRequirementsFile && requirementsData && (
-              <div className="mt-3 p-3 bg-primary/10 border border-primary/20 rounded-lg shadow-sm">
+              <div className="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg shadow-sm">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-primary/95">
+                  <span className="text-sm font-medium text-blue-900">
                     다운로드된 요구사항
                   </span>
                   <Button
@@ -521,13 +515,13 @@ export function ProjectCreationPanel({
                     size="sm"
                     onClick={downloadRequirementsFromAgent}
                     disabled={isDownloadingRequirements}
-                    className="text-primary hover:text-primary/90 p-1 h-auto"
+                    className="text-blue-600 hover:text-blue-700 p-1 h-auto"
                   >
                     <RefreshCw className="h-3 w-3" />
                   </Button>
                 </div>
                 <div className="max-h-32 overflow-y-auto">
-                  <pre className="text-xs text-primary/90 whitespace-pre-wrap">
+                  <pre className="text-xs text-blue-800 whitespace-pre-wrap">
                     {requirementsData.trim()}
                   </pre>
                 </div>
@@ -681,7 +675,7 @@ export function ProjectCreationPanel({
         <Button
           onClick={handleCreateProject}
           disabled={!canCreateProject || isCreating}
-          className="w-full bg-primary hover:bg-primary/90 text-white"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white"
         >
           {isCreating ? (
             <div className="flex items-center space-x-2">

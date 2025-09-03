@@ -152,7 +152,7 @@ export default function GitModal({
                       <Button
                         size="sm"
                         onClick={handleCreateBranch}
-                        className="bg-primary hover:bg-primary/90 text-white"
+                        className="bg-blue-600 hover:bg-blue-700 text-white"
                       >
                         생성
                       </Button>
@@ -202,10 +202,10 @@ export default function GitModal({
                   <h3 className="text-sm font-medium text-gray-600 mb-3">
                     현재 태그
                   </h3>
-                  <div className="p-3 bg-primary/10 rounded-lg border border-primary/20">
+                  <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
                     <div className="flex items-center">
-                      <Tag className="h-4 w-4 mr-2 text-primary" />
-                      <span className="font-medium text-primary/90">
+                      <Tag className="h-4 w-4 mr-2 text-blue-600" />
+                      <span className="font-medium text-blue-700">
                         {currentTag}
                       </span>
                     </div>
@@ -222,7 +222,7 @@ export default function GitModal({
                         key={tag}
                         className={`flex items-center justify-between p-3 rounded-lg border transition-colors cursor-pointer ${
                           tag === currentTag
-                            ? "bg-primary/10 border-primary/20"
+                            ? "bg-blue-50 border-blue-200"
                             : "bg-gray-50 border-gray-200 hover:bg-gray-100"
                         }`}
                         onClick={() => tag !== currentTag && onTagSwitch(tag)}
@@ -270,7 +270,7 @@ export default function GitModal({
                         <Button
                           size="sm"
                           onClick={handleCreateTag}
-                          className="bg-primary hover:bg-primary/90 text-white"
+                          className="bg-blue-600 hover:bg-blue-700 text-white"
                         >
                           생성
                         </Button>
@@ -341,7 +341,7 @@ export default function GitModal({
               <TabsContent value="push" className="space-y-4">
                 <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
                   <Button
-                    className="w-full bg-primary hover:bg-primary/90 text-white rounded-lg"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
                     onClick={() => {
                       /* Push 로직 */
                     }}

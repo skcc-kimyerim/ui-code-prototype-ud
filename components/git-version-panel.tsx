@@ -129,8 +129,8 @@ export default function GitVersionPanel({
             <TabsContent value="tags" className="flex-1 p-2 space-y-2">
               <div className="text-xs text-gray-500 mb-2">현재 태그</div>
               <div className="p-2 bg-gray-700 rounded text-xs mb-2">
-                <Tag className="h-3 w-3 inline mr-2 text-primary/60" />
-                <span className="text-primary/70">{currentTag}</span>
+                <Tag className="h-3 w-3 inline mr-2 text-blue-400" />
+                <span className="text-blue-300">{currentTag}</span>
               </div>
               <div className="text-xs text-gray-500 mb-2">태그 목록</div>
               <ScrollArea className="flex-1">

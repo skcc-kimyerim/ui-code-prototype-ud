@@ -425,12 +425,12 @@ export default function GeneratedComponent() {
                   /&:hover {\s*background-color: #6d28d9/g,
                   "&:hover {\n      background-color: #1d4ed8"
                 )
-                .replace(/bg-primary/g, "bg-blue-600")
-                .replace(/hover:bg-primary\/90/g, "hover:bg-blue-700");
+                .replace(/bg-purple-600/g, "bg-blue-600")
+                .replace(/hover:bg-purple-700/g, "hover:bg-blue-700");
             } else {
               newCode = generatedCode
-                .replace(/bg-primary/g, "bg-blue-600")
-                .replace(/hover:bg-primary\/90/g, "hover:bg-blue-700");
+                .replace(/bg-purple-600/g, "bg-blue-600")
+                .replace(/hover:bg-purple-700/g, "hover:bg-blue-700");
             }
           } else {
             response = "색상을 변경했습니다.";

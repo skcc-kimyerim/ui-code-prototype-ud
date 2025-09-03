@@ -120,7 +120,7 @@ export default function InspectionModal({
                   </span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-primary rounded-full"></div>
+                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                   <span className="text-sm text-foreground">
                     접근성 검사 완료
                   </span>
@@ -155,7 +155,7 @@ export default function InspectionModal({
             <div className="space-y-4">
               <div className="border border-border rounded-lg p-4 bg-muted/50">
                 <h3 className="font-medium text-foreground mb-3 flex items-center">
-                  <Shield className="h-4 w-4 mr-2 text-primary" />
+                  <Shield className="h-4 w-4 mr-2 text-blue-500" />
                   접근성 검사 결과
                 </h3>
                 <div className="space-y-3">
@@ -235,7 +235,7 @@ axe.run().then(results => {
                 </h3>
                 <div className="space-y-3">
                   <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-primary rounded-full"></div>
+                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                     <span className="text-sm text-foreground">
                       추출된 문자열: 23개
                     </span>
@@ -362,7 +362,7 @@ return <button onClick={() => changeLanguage('en')}>{t('common.save')}</button>;
                     </span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <div className="w-2 h-2 bg-primary rounded-full"></div>
+                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                     <span className="text-sm text-foreground">
                       LCP: 2.1초 (양호)
                     </span>
@@ -493,7 +493,7 @@ onINP(sendToAnalytics);`}</pre>
             <div className="space-y-4">
               <div className="border border-border rounded-lg p-4 bg-muted/50">
                 <h3 className="font-medium text-foreground mb-3 flex items-center">
-                  <BookOpen className="h-4 w-4 mr-2 text-primary" />
+                  <BookOpen className="h-4 w-4 mr-2 text-blue-500" />
                   Storybook 템플릿 생성
                 </h3>
                 <p className="text-sm text-muted-foreground mb-4">
@@ -503,7 +503,7 @@ onINP(sendToAnalytics);`}</pre>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="border border-border rounded-lg p-3 hover:bg-muted/30 cursor-pointer transition-colors">
                     <div className="flex items-center space-x-2 mb-2">
-                      <BookOpen className="h-4 w-4 text-primary" />
+                      <BookOpen className="h-4 w-4 text-blue-500" />
                       <span className="font-medium text-sm">스토리 생성</span>
                     </div>
                     <p className="text-xs text-muted-foreground">
