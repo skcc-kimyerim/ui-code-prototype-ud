@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Header from "@/components/header";
 import AIChat from "@/components/ai-chat";
-import MarkdownViewer from "@/components/markdown-viewer";
+import ProjectSetup from "@/components/project-setup";
 
 export default function SetupPage() {
   const router = useRouter();
@@ -80,7 +80,7 @@ export default function SetupPage() {
         {/* Right Panel - Markdown Viewer */}
         <div className="flex-1">
           <div className="bg-white rounded-lg border border-gray-200 shadow-sm h-full overflow-hidden">
-            <MarkdownViewer />
+            <ProjectSetup />
           </div>
         </div>
       </div>
